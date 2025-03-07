@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./components/App";
 
-const App: React.FC = () => {
-    return (
-        <div>
-            <h1>Hello, React + TypeScript di Laravel!</h1>
-        </div>
-    );
-};
-
-ReactDOM.createRoot(document.getElementById('app')!).render(<App />);
+ReactDOM.createRoot(document.getElementById("app")!).render(
+    <React.StrictMode>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </React.StrictMode>
+);
