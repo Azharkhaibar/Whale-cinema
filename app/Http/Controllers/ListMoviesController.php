@@ -25,7 +25,31 @@ class ListMoviesController extends Controller
         }
     }
 
-    public function getFeaturedMoviesList(): JsonResponse {
-        
+    public function getFeaturedMoviesList(): JsonResponse
+    {
+        try {
+            $response_movies_list = Http::get("https://api.tvmaze.com/shows");
+
+            if ($response_movies_list->successful()) {
+                $movies = $response_movies_list->json();
+                $featuredMovies = array_filter($movies, function ($movie) {
+                    return isset($movie['rating']['average']) && $movie['rating']['average'] >= 8.0;
+                });
+
+                // Urutkan berdasarkan rating (dari tertinggi ke terendah)
+                usort($featuredMovies, function ($a, $b) {
+                    return $b['rating']['average'] <=> $a['rating']['average'];
+                });
+
+                // Ambil 20 film terbaik
+                $featuredMoviesLimit = array_slice($featuredMovies, 0, 20);
+                return response()->json($featuredMoviesLimit, Response::HTTP_OK);
+            } else {
+                return response()->json(["error" => "Server Error"], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (\Exception $e) {
+            Log::error("Error in getFeaturedMoviesList: " . $e->getMessage());
+            return response()->json(["error" => "Server Error"], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
