@@ -28,28 +28,50 @@ class ListMoviesController extends Controller
     public function getFeaturedMoviesList(): JsonResponse
     {
         try {
-            $response_movies_list = Http::get("https://api.tvmaze.com/shows");
+            $response_featured_movies = Http::timeout(10)->get("https://api.tvmaze.com/shows");
+            $responseData = [
+                "status" => Response::HTTP_OK,
+                "data" => []
+            ];
 
-            if ($response_movies_list->successful()) {
-                $movies = $response_movies_list->json();
-                $featuredMovies = array_filter($movies, function ($movie) {
-                    return isset($movie['rating']['average']) && $movie['rating']['average'] >= 8.0;
-                });
-
-                // Urutkan berdasarkan rating (dari tertinggi ke terendah)
-                usort($featuredMovies, function ($a, $b) {
-                    return $b['rating']['average'] <=> $a['rating']['average'];
-                });
-
-                // Ambil 20 film terbaik
-                $featuredMoviesLimit = array_slice($featuredMovies, 0, 20);
-                return response()->json($featuredMoviesLimit, Response::HTTP_OK);
+            if (!$response_featured_movies->successful()) {
+                Log::error("TVMaze API error: " . $response_featured_movies->status());
+                $responseData = [
+                    "status" => Response::HTTP_BAD_GATEWAY,
+                    "data" => ["error" => "Failed to fetch data from TVMaze"]
+                ];
             } else {
-                return response()->json(["error" => "Server Error"], Response::HTTP_INTERNAL_SERVER_ERROR);
+                $Movies_featured = $response_featured_movies->json();
+                if (!is_array($Movies_featured)) {
+                    Log::error("Invalid response format from TVMaze.");
+                    $responseData = [
+                        "status" => Response::HTTP_INTERNAL_SERVER_ERROR,
+                        "data" => ["error" => "Invalid response format"]
+                    ];
+                } else {
+                    $featuredMovies = array_filter(
+                        $Movies_featured,
+                        fn($Movies_featured) =>
+                        isset($Movies_featured['rating']['average']) && is_numeric($Movies_featured['rating']['average']) && $Movies_featured['rating']['average'] >= 8.0
+                    );
+
+                    if (empty($featuredMovies)) {
+                        Log::warning("No featured movies found.");
+                        $responseData["data"] = ["message" => "No featured movies found."];
+                    } else {
+                        usort($featuredMovies, fn($a, $b) => $b['rating']['average'] <=> $a['rating']['average']);
+                        $responseData["data"] = array_slice($featuredMovies, 0, 20);
+                    }
+                }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error("Error in getFeaturedMoviesList: " . $e->getMessage());
-            return response()->json(["error" => "Server Error"], Response::HTTP_INTERNAL_SERVER_ERROR);
+            $responseData = [
+                "status" => Response::HTTP_INTERNAL_SERVER_ERROR,
+                "data" => ["error" => "Server Error", "details" => $e->getMessage()]
+            ];
         }
+
+        return response()->json($responseData["data"], $responseData["status"]);
     }
 }

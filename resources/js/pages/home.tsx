@@ -4,7 +4,9 @@ import { HeaderHeroHome } from "../ui/homeUI/HeaderHeroHome";
 import PopularMoviesList from "../ui/homeUI/popularMoviesStream";
 import PopularSeries from "../ui/homeUI/PopularTvSeries";
 import MiddleHeader from "../ui/homeUI/AddMiddleHeader";
+import Footer from "../ui/FooterMovieWeb";
 import ListChangeableNavbar from "../ui/homeUI/ListChangeableMovies";
+import SectionDownload from "../ui/homeUI/SectionToDownloadApps";
 const Home: React.FC = () => {
     const [movies, setMovies] = useState<any[]>([]);
 
@@ -25,6 +27,8 @@ const Home: React.FC = () => {
             <PopularSeries />
             <MiddleHeader />
             <ListChangeableNavbar />
+            <SectionDownload />
+            <Footer />
             {/* <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
                 {movies.map((movie) => (
                     <div key={movie.id}>

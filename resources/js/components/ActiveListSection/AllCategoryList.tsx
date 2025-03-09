@@ -28,7 +28,14 @@ export default function AllMovies() {
     return (
         <div className="container mx-auto h-96 mt-10">
             {loadingMovies ? (
-                <p className="text-center text-gray-500">Loading movies...</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                        <div key={index} className="animate-pulse">
+                            <div className="bg-gray-800 h-72 rounded-lg"></div>
+                            <div className="bg-gray-700 h-5 w-3/4 mx-auto mt-4 rounded"></div>
+                        </div>
+                    ))}
+                </div>
             ) : (
                 <div>
                     {getAllMoviesData.length > 0 ? (
@@ -56,11 +63,6 @@ export default function AllMovies() {
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
-                            <style>{`
-                                .swiper-pagination {
-                                    bottom: !important;
-                                }
-                            `}</style>
                         </div>
                     ) : (
                         <p className="text-center text-gray-500">No movies found.</p>

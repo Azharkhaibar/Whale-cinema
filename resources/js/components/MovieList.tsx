@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../ui/navbar";
+import Navbar from "../ui/NavbarMovieWeb";
 
 type MovieProps = {
     id: number;
@@ -13,7 +13,7 @@ const MovieCard: React.FC<MovieProps> = ({ id, title, poster }) => {
         <div className="">
             <Navbar />
             <div className="">
-                
+
             </div>
         </div>
         // <div className="border p-2 rounded-lg shadow">

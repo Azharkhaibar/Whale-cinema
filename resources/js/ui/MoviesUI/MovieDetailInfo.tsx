@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMoviesDetail } from "../api/movieApi";
+import { getMoviesDetail } from "../../api/movieApi";
 
 const MovieDetail: React.FC = () => {
     const { id } = useParams();
@@ -8,9 +8,9 @@ const MovieDetail: React.FC = () => {
 
     useEffect(() => {
         fetch(`https://api.tvmaze.com/shows/${id}`)
-        .then((res)=>res.json())
-        .then((data)=> setMovie(data))
-        .catch((err)=> console.error("Error :", err));
+            .then((res) => res.json())
+            .then((data) => setMovie(data))
+            .catch((err) => console.error("Error :", err));
     }, [id]);
 
     if (!movie) return <p>Loading...</p>;
