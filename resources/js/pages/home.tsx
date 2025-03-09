@@ -4,6 +4,7 @@ import { HeaderHeroHome } from "../ui/homeUI/HeaderHeroHome";
 import PopularMoviesList from "../ui/homeUI/popularMoviesStream";
 import PopularSeries from "../ui/homeUI/PopularTvSeries";
 import MiddleHeader from "../ui/homeUI/AddMiddleHeader";
+import ListChangeableNavbar from "../ui/homeUI/ListChangeableMovies";
 const Home: React.FC = () => {
     const [movies, setMovies] = useState<any[]>([]);
 
@@ -23,6 +24,7 @@ const Home: React.FC = () => {
             <PopularMoviesList />
             <PopularSeries />
             <MiddleHeader />
+            <ListChangeableNavbar />
             {/* <div className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4">
                 {movies.map((movie) => (
                     <div key={movie.id}>

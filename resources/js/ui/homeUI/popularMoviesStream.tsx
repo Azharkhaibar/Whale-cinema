@@ -23,7 +23,7 @@ const PopularMoviesCarousel: React.FC = () => {
 
     return (
         <div className="p-6 h-[100%]">
-            <h2 className="text-white text-center text-4xl font-bold mt-16">Popular streaming movies & series</h2>
+            <h2 className="text-white text-center text-4xl font-geologica font-bold mt-16">Popular streaming movies & series</h2>
             <Swiper
                 slidesPerView={1}
                 breakpoints={{

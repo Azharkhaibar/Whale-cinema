@@ -17,7 +17,9 @@ class ApiMovieController extends Controller
             Log::info("API Response getAllMovies: " . json_encode($response->json()));
 
             if ($response->successful()) {
-                return response()->json($response->json(), Response::HTTP_OK);
+                // Batasi hanya 20 hasil
+                $movies = array_slice($response->json(), 0, 10);
+                return response()->json($movies, Response::HTTP_OK);
             } else {
                 return response()->json(["error" => "Failed to fetch movies"], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
@@ -37,7 +39,7 @@ class ApiMovieController extends Controller
                 $movies = collect($response->json())
                     ->filter(fn($movie) => isset($movie['rating']['average'])) // Pastikan rating ada
                     ->sortByDesc(fn($movie) => $movie['rating']['average'] ?? 0) // Urutkan berdasarkan rating
-                    ->take(20);
+                    ->take(10);
 
                 return response()->json($movies->values()->all(), Response::HTTP_OK);
             } else {
