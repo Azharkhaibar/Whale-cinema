@@ -56,7 +56,6 @@ class PageMoviesController extends Controller
             }
 
             $moviesData = $response->json();
-
             if (!is_array($moviesData)) {
                 Log::error("Invalid API response format: " . json_encode($moviesData));
                 return response()->json(["error" => "Invalid API response format"], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -66,8 +65,7 @@ class PageMoviesController extends Controller
                 return ($b['rating']['average'] ?? 0) <=> ($a['rating']['average'] ?? 0);
             });
 
-            $limitedMovies = array_slice($moviesData, 0, 5);
-
+            $limitedMovies = array_slice($moviesData, 0, 20);
             return response()->json(["movies" => $limitedMovies], Response::HTTP_OK);
         } catch (\Exception $e) {
             Log::error("Error fetching movies: " . $e->getMessage());
@@ -76,6 +74,51 @@ class PageMoviesController extends Controller
                 "message" => $e->getMessage(),
                 "line" => $e->getLine(),
                 "file" => $e->getFile()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getTopPicksMovies(): JsonResponse
+    {
+        try {
+            Log::info('Fetching Picks Movies from API ...');
+            $responseGetMovies = Http::timeout(10)->get('https://api.tvmaze.com/shows');
+
+            if (!$responseGetMovies->successful()) {
+                Log::error('Failed to fetch API. Status: ' . $responseGetMovies->status());
+                return response()->json([
+                    "error" => "Failed to fetch movies",
+                    "status_code" => $responseGetMovies->status()
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            $moviesGetObject = collect($responseGetMovies->json())
+                ->shuffle()
+                ->take(15)
+                ->map(function ($moviesObject) {
+                    return [
+                        "id" => $moviesObject['id'] ?? null,
+                        "name" => $moviesObject['name'] ?? "Unknown",
+                        "language" => $moviesObject['language'] ?? "Unknown",
+                        "genres" => $moviesObject['genres'] ?? [],
+                        "rating" => $moviesObject['rating']['average'] ?? "N/A",
+                        "image" => [
+                            "medium" => $moviesObject['image']['medium'] ?? null,
+                            "original" => $moviesObject['image']['original'] ?? null,
+                        ],
+                        "imdb" => $moviesObject['externals']['imdb'] ?? null,
+                        "summary" => strip_tags($moviesObject['summary'] ?? "No summary available."),
+                        "officialSite" => $moviesObject['officialSite'] ?? null,
+                        "premiered" => $moviesObject['premiered'] ?? null,
+                    ];
+                });
+
+            return response()->json(["top_picks" => $moviesGetObject], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error('Exception: ' . $e->getMessage());
+            return response()->json([
+                "error" => "An error occurred while fetching movies",
+                "status_code" => Response::HTTP_INTERNAL_SERVER_ERROR
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

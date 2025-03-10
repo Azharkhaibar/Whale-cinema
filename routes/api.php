@@ -14,3 +14,4 @@ Route::get('/featuredmovieslist', [ListMoviesController::class, 'getFeaturedMovi
 
 Route::get('/getallmoviespage', [PageMoviesController::class, 'getAllMoviesInformation']);
 Route::get('/getpopularmoviespage', [PageMoviesController::class, 'getPopularMovieOnWhale']);
+Route::get('/gettoppickmovies', [PageMoviesController::class, 'getTopPicksMovies']);

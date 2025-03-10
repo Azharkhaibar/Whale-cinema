@@ -1,28 +1,42 @@
-import { useMovies } from "../../components/moviesContext";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { SkeletonPopularMoviesWhale } from "../../components/SkeletonMovieCardLoading";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import "swiper/css";
 
-export default function SectionMoviesByCategory() {
-    const { WhalePopularMovies, loading, error } = useMovies();
+export default function GetPremiumMovies() {
+    const [topPicksMovies, setTopPicksMovies] = useState<any[]>([]);
+    const [loadingData, setLoadingData] = useState(true);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        axios.get('/api/gettoppickmovies')
+            .then((res) => {
+                console.log('Fetched movies:', res.data);
+                setTopPicksMovies(res.data.top_picks || []);
+            })
+            .catch((err) => {
+                console.error('Error fetching movies:', err);
+                setError(true);
+                setTopPicksMovies([]); // Hapus data lama jika error
+            })
+            .finally(() => {
+                setLoadingData(false);
+            });
+    }, []);
 
     return (
         <div className="w-full h-auto px-16">
             <h2 className="text-white text-2xl font-geologica font-bold mt-16">
-                Popular Movies On Whale
+                IMDB Top Picks
             </h2>
 
-            {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-                    {Array.from({ length: 6 }).map((_, index) => (
-                        <SkeletonPopularMoviesWhale key={index} />
-                    ))}
-                </div>
-            ) : error ? (
-                <div className="text-center text-red-500 mt-10 text-lg">
-                    Failed to fetch movies. Please try again later.
-                </div>
-            ) : (
+            {loadingData && <p className="text-gray-300">Loading movies...</p>}
+            {error && <p className="text-red-500">Failed to fetch movies. Please try again.</p>}
+
+            {!loadingData && !error && (
                 <Swiper
+                    modules={[Navigation, Pagination, Scrollbar, A11y]}
                     slidesPerView={6}
                     breakpoints={{
                         640: { slidesPerView: 2 },
@@ -33,12 +47,11 @@ export default function SectionMoviesByCategory() {
                     pagination={{ clickable: true }}
                     className="mySwiper h-auto mt-10"
                 >
-
-                    {WhalePopularMovies.map((movie) => (
+                    {topPicksMovies.map((movie) => (
                         <SwiperSlide key={movie.id}>
-                            <div className="text-white  rounded-md shadow-md h-auto">
+                            <div className="text-white rounded-md shadow-md h-auto">
                                 <img
-                                    src={movie.image?.medium || "/default-movie.jpg"}
+                                    src={movie.image?.medium ?? "/default-movie.jpg"}
                                     alt={movie.name}
                                     className="w-full h-auto rounded-xl"
                                 />
@@ -48,6 +61,7 @@ export default function SectionMoviesByCategory() {
                                         {movie.premiered ? new Date(movie.premiered).getFullYear() : "N/A"}
                                     </p>
                                     <p className="text-sm text-blue-600 font-medium">{movie.genres?.join(", ") || "N/A"}</p>
+                                    <p className="text-yellow-500">{movie.rating !== "N/A" ? `⭐ ${movie.rating}` : "No Rating"}</p>
                                 </div>
                             </div>
                         </SwiperSlide>

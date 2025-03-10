@@ -38,3 +38,22 @@ export const SkeletonTopShowCard = () => {
         </div>
     );
 };
+
+export const SkeletonPopularMoviesWhale = () => {
+    return (
+        <div className="animate-pulse p-2 rounded-md shadow-md h-auto">
+            {/* Placeholder untuk gambar */}
+            <div className="bg-gray-800 h-64 w-full rounded-xl"></div>
+
+            {/* Placeholder untuk judul */}
+            <div className="bg-gray-700 h-6 w-3/4 mx-auto mt-6 rounded"></div>
+
+            {/* Placeholder untuk tahun & genre */}
+            <div className="flex items-center space-x-3 mt-2">
+                <div className="bg-gray-700 h-5 w-12 rounded"></div>
+                <div className="bg-gray-700 h-5 w-20 rounded"></div>
+            </div>
+        </div>
+    );
+};
+

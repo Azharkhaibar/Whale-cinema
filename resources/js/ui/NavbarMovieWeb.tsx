@@ -31,12 +31,12 @@ const Navbar: React.FC = () => {
                                 </li>
                                 <li>
                                     <Link to="/tv-series" className="block px-4 py-2 hover:bg-gray-200">
-                                        TV Series
+                                        Web Channel
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/sports" className="block px-4 py-2 hover:bg-gray-200">
-                                        Sports
+                                        Network
                                     </Link>
                                 </li>
                             </ul>
