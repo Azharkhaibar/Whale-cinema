@@ -13,8 +13,6 @@ class NetworkMoviesController extends Controller
     {
         try {
             Log::info('Fetching network data');
-
-            // Ambil daftar acara dari API TVMaze
             $response = Http::get('https://api.tvmaze.com/shows');
 
             if (!$response->successful()) {
@@ -25,7 +23,6 @@ class NetworkMoviesController extends Controller
                 ], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
-            // Ambil semua data tanpa batas
             $shows = collect($response->json());
             $shownNetworks = [];
             $networkData = $shows->map(function ($show) use (&$shownNetworks) {

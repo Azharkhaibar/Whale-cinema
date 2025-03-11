@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\JsonResponse;
 
-class WebChannelMoviesController extends Controller
+
+class ScheduleMoviesController extends Controller
 {
     
 }

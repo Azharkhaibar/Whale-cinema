@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css"
 interface NetworkDataInterface {
     id: number;
     showName: string;
@@ -21,6 +22,28 @@ interface NetworkDataInterface {
     } | null;
 }
 
+const SkeletonCard = () => {
+    return (
+        <div className="bg-white dark:bg-gray-900 p-5 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+            <Skeleton height={24} width={150} className="mb-2" />
+            <Skeleton height={16} width={200} className="mb-4" />
+            <Skeleton height={40} width={180} className="mt-4" />
+        </div>
+    );
+};
+
+const SkeletonGrid = () => {
+    return (
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 12 }).map((_, index) => (
+                    <SkeletonCard key={index} />
+                ))}
+            </div>
+        </SkeletonTheme>
+    );
+};
+
 const NetworkPage = () => {
     const [networkMoviesData, setNetworkMoviesData] = useState<NetworkDataInterface[]>([]);
     const [loading, setLoading] = useState(true);
@@ -28,9 +51,11 @@ const NetworkPage = () => {
     const itemsPerPage = 12;
 
     useEffect(() => {
-        fetch("/api/getnetworkmovies")
-            .then(response => response.json())
-            .then(data => {
+        const fetchNetworkMovies = async () => {
+            try {
+                const response = await fetch("/api/getnetworkmovies");
+                const data = await response.json();
+
                 if (data.status === "success") {
                     const validData = data.data.filter((networkDataObject: NetworkDataInterface) =>
                         networkDataObject.network?.name &&
@@ -39,17 +64,26 @@ const NetworkPage = () => {
                     );
 
                     setNetworkMoviesData(validData);
+                } else {
+                    console.error("Error fetching network data:", data.error);
                 }
-                setLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error("Error fetching network data:", error);
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchNetworkMovies();
     }, []);
 
     if (loading) {
-        return <p className="text-center text-gray-400">Loading network data...</p>;
+        return(
+            <div className="px-20 pt-20 w-full h-full pt-28 mx-auto text-white rounded-lg">
+                <h1 className="text-4xl font-bold mb-20 mt-16 text-center">Network Movies</h1>
+                {loading ? <SkeletonGrid /> : <div>Data Loaded</div>}
+            </div>
+        )
     }
 
     if (networkMoviesData.length === 0) {
@@ -59,7 +93,7 @@ const NetworkPage = () => {
     const newDataNetwork = networkMoviesData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
-        <div className="px-20 pt-20 w-full h-full pt-28 mx-auto text-white rounded-lg shadow-lg">
+        <div className="px-20 pt-20 w-full h-full pt-28 mx-auto text-white rounded-lg">
             <h1 className="text-4xl font-geogilica font-bold mb-20 mt-16 text-center">Network Movies</h1>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
