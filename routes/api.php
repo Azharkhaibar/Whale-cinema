@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DetailMoviesDataController;
 use App\Http\Controllers\ApiMovieController;
 use App\Http\Controllers\ListMoviesController;
 use App\Http\Controllers\PageMoviesController;
@@ -18,3 +19,4 @@ Route::get('/getallmoviespage', [PageMoviesController::class, 'getAllMoviesInfor
 Route::get('/getpopularmoviespage', [PageMoviesController::class, 'getPopularMovieOnWhale']);
 Route::get('/gettoppickmovies', [PageMoviesController::class, 'getTopPicksMovies']);
 Route::get('/getnetworkmovies', [NetworkMoviesController::class, 'getMoviesNetwork']);
+Route::get('/getmoviedetail/{id}', [DetailMoviesDataController::class, 'getDataDetailMovies']);

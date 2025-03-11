@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css";
@@ -8,6 +9,7 @@ export default function GetPremiumMovies() {
     const [topPicksMovies, setTopPicksMovies] = useState<any[]>([]);
     const [loadingData, setLoadingData] = useState(true);
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('/api/gettoppickmovies')
@@ -18,7 +20,7 @@ export default function GetPremiumMovies() {
             .catch((err) => {
                 console.error('Error fetching movies:', err);
                 setError(true);
-                setTopPicksMovies([]); // Hapus data lama jika error
+                setTopPicksMovies([]); 
             })
             .finally(() => {
                 setLoadingData(false);
@@ -49,7 +51,7 @@ export default function GetPremiumMovies() {
                 >
                     {topPicksMovies.map((movie) => (
                         <SwiperSlide key={movie.id}>
-                            <div className="text-white rounded-md shadow-md h-auto">
+                            <div className="text-white rounded-md shadow-md h-auto cursor-pointer" onClick={() => navigate(`/movies/${movie.id}`)}>
                                 <img
                                     src={movie.image?.medium ?? "/default-movie.jpg"}
                                     alt={movie.name}

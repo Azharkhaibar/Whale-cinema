@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
+import { useNavigate } from "react-router-dom";
 import {SkeletonMovieCard} from "../../components/SkeletonMovieCardLoading";
 
 const PopularMoviesCarousel: React.FC = () => {
     const [movies, setMovies] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
     useEffect(() => {
         axios.get("/api/popularmovies")
             .then((res) => {
@@ -53,7 +54,7 @@ const PopularMoviesCarousel: React.FC = () => {
                 >
                     {movies.map((movie) => (
                         <SwiperSlide key={movie.id} className="">
-                            <div className="text-white mt-16 p-4 rounded-md shadow-md h-auto">
+                            <div className="text-white mt-16 p-4 rounded-md shadow-md h-auto cursor-pointer" onClick={() => navigate(`/movies/${movie.id}`)}>
                                 <img src={movie.image?.medium || ""} alt={movie.name} className="w-full h-auto rounded-xl" />
                                 <h2 className="text-2xl mt-6 font-bold">{movie.name}</h2>
                                 <div className="flex items-center space-x-3 mt-2 text-gray-400 text-sm">

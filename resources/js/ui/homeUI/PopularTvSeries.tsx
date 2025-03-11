@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Navigation } from "swiper/modules";
 import { SkeletonTopShowCard, SkeletonCardPopularTV } from "../../components/SkeletonMovieCardLoading";
-
+import { useNavigate } from "react-router-dom";
 const PopularSeries: React.FC = () => {
     const [top5Shows, setTop5Shows] = useState<any[]>([]);
     const [popularSeriesMovies, setPopularSeriesMovies] = useState<any[]>([]);
     const [loadingSeries, setLoadingSeries] = useState(true);
     const [loadingTopShows, setLoadingTopShows] = useState(true);
-
+    const navigate = useNavigate();
     useEffect(() => {
         axios.get('/api/seriesmovies')
             .then((res) => {
@@ -15,7 +16,7 @@ const PopularSeries: React.FC = () => {
                 setPopularSeriesMovies(res.data);
             })
             .catch((err) => console.error('Error fetching series movies:', err))
-            .finally(() => setLoadingSeries(false)); 
+            .finally(() => setLoadingSeries(false));
     }, []);
 
     useEffect(() => {
@@ -36,7 +37,9 @@ const PopularSeries: React.FC = () => {
                     {loadingSeries
                         ? Array.from({ length: 6 }).map((_, index) => <SkeletonCardPopularTV key={index} />)
                         : popularSeriesMovies.map((seriesMovie) => (
-                            <div key={seriesMovie.id} className="text-white p-4 rounded-md shadow-md">
+                            <div key={seriesMovie.id} className="text-white p-4 rounded-md shadow-md cursor-pointer"
+                                onClick={() => navigate(`/movies/${seriesMovie.id}`)}
+                            >
                                 <img
                                     src={seriesMovie.image?.medium || "/placeholder.jpg"}
                                     alt={seriesMovie.name}
@@ -59,7 +62,9 @@ const PopularSeries: React.FC = () => {
                     {loadingTopShows
                         ? Array.from({ length: 5 }).map((_, index) => <SkeletonTopShowCard key={index} />)
                         : top5Shows.map((topShow, index) => (
-                            <div key={topShow.id} className="bg-transparent p-4 rounded-lg shadow-md flex items-center">
+                            <div key={topShow.id} className="cursor-pointer bg-transparent p-4 rounded-lg shadow-md flex items-center"
+                                 onClick={() => navigate(`/movies/${topShow.id}`)}
+                            >
                                 <img
                                     src={topShow.image?.medium || "/placeholder.jpg"}
                                     alt={topShow.name}

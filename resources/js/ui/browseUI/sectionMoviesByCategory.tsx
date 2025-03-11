@@ -1,10 +1,11 @@
 import { useMovies } from "../../components/moviesContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SkeletonPopularMoviesWhale } from "../../components/SkeletonMovieCardLoading";
-
+import { useNavigate } from "react-router-dom";
+import { Navigation } from "swiper/modules";
 export default function SectionMoviesByCategory() {
     const { WhalePopularMovies, loading, error } = useMovies();
-
+    const navigate = useNavigate();
     return (
         <div className="w-full h-auto px-16">
             <h2 className="text-white text-2xl font-geologica font-bold mt-16">
@@ -36,7 +37,7 @@ export default function SectionMoviesByCategory() {
 
                     {WhalePopularMovies.map((movie) => (
                         <SwiperSlide key={movie.id}>
-                            <div className="text-white  rounded-md shadow-md h-auto">
+                            <div className="text-white cursor-pointer rounded-md shadow-md h-auto" onClick={() => navigate(`/movies/${movie.id}`)}>
                                 <img
                                     src={movie.image?.medium || "/default-movie.jpg"}
                                     alt={movie.name}
