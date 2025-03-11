@@ -3,6 +3,8 @@
 use App\Http\Controllers\ApiMovieController;
 use App\Http\Controllers\ListMoviesController;
 use App\Http\Controllers\PageMoviesController;
+use App\Http\Controllers\WebChannelMoviesController;
+use App\Http\Controllers\NetworkMoviesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/popularmovies', [ApiMovieController::class, 'getPopularMovies']);
@@ -15,3 +17,4 @@ Route::get('/featuredmovieslist', [ListMoviesController::class, 'getFeaturedMovi
 Route::get('/getallmoviespage', [PageMoviesController::class, 'getAllMoviesInformation']);
 Route::get('/getpopularmoviespage', [PageMoviesController::class, 'getPopularMovieOnWhale']);
 Route::get('/gettoppickmovies', [PageMoviesController::class, 'getTopPicksMovies']);
+Route::get('/getnetworkmovies', [NetworkMoviesController::class, 'getMoviesNetwork']);
