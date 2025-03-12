@@ -62,7 +62,7 @@ const MovieDetail: React.FC = () => {
         <div className="relative w-full h-screen text-white">
             {/* Background Blur */}
             <div className="absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: `url(${movie?.image?.original || '/default-movie.jpg'})` }} />
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-md"></div>
+            <div className="absolute inset-0 bg-black/60"></div>
 
             {/* Content */}
             <div className="relative z-10 px-6 py-20 md:px-16 lg:px-20 max-w-4xl">

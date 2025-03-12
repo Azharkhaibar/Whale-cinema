@@ -30,8 +30,8 @@ const PopularSeries: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-full px-10 flex flex-col md:flex-row justify-center mt-20">
-            <div className="w-full md:w-10/12 p-4">
+        <div className="w-full px-8 flex flex-col md:flex-row justify-center mt-20">
+            <div className="w-full md:w-10/12">
                 <h2 className="text-3xl text-white mb-4 font-geologica">Popular TV Series Right Now</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
                     {loadingSeries
