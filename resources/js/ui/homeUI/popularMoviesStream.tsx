@@ -29,7 +29,7 @@ const PopularMoviesCarousel: React.FC = () => {
     }, []);
 
     return (
-        <div className="p-6 h-[100%]">
+        <div className="p-6 h-[100%] px-20">
             <h2 className="text-white text-center text-4xl font-geologica font-bold mt-16">
                 Popular streaming movies & series
             </h2>
@@ -45,7 +45,7 @@ const PopularMoviesCarousel: React.FC = () => {
                     breakpoints={{
                         640: { slidesPerView: 2 },
                         768: { slidesPerView: 3 },
-                        1024: { slidesPerView: 4 },
+                        1024: { slidesPerView: 5 },
                     }}
                     spaceBetween={20}
                     pagination={{ clickable: true, bulletClass: "swiper-pagination-bullet bg-gray-500" }}

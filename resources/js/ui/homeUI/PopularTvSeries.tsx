@@ -30,14 +30,14 @@ const PopularSeries: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-full px-8 flex flex-col md:flex-row justify-center mt-20">
+        <div className="w-full px-20 flex flex-col md:flex-row justify-center mt-20 gap-20">
             <div className="w-full md:w-10/12">
                 <h2 className="text-3xl text-white mb-4 font-geologica">Popular TV Series Right Now</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
                     {loadingSeries
                         ? Array.from({ length: 6 }).map((_, index) => <SkeletonCardPopularTV key={index} />)
                         : popularSeriesMovies.map((seriesMovie) => (
-                            <div key={seriesMovie.id} className="text-white p-4 rounded-md shadow-md cursor-pointer"
+                            <div key={seriesMovie.id} className="text-white p-2 rounded-md shadow-md cursor-pointer"
                                 onClick={() => navigate(`/movies/${seriesMovie.id}`)}
                             >
                                 <img
