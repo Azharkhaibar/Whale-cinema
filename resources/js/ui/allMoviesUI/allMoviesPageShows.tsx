@@ -107,10 +107,10 @@ const AllMoviesShows = () => {
                         onClick={() => setGenreDropdownOpen(!genreDropdownOpen)}
                         className="flex bg-gray-800 text-white px-4 rounded-md shadow-md hover:bg-gray-700 transition"
                     >
-                        {selectedGenre} <ChevronDown className="ml-2 w-5 h-5" />
+                        {selectedGenre} <ChevronDown className="ml-2 pt-2 w-5 h-5" />
                     </button>
                     {genreDropdownOpen && (
-                        <div className="absolute left-0 mt-2 w-96 bg-gray-800 text-white z-50 p-2">
+                        <div className="absolute left-0 p-8 mt-2 w-96 bg-gray-800 text-white z-50 p-2">
                             <div className="grid grid-cols-3 gap-8">
                                 {genres.map((genre) => (
                                     <button

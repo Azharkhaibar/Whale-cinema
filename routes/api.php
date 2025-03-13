@@ -6,6 +6,7 @@ use App\Http\Controllers\ListMoviesController;
 use App\Http\Controllers\PageMoviesController;
 use App\Http\Controllers\NetworkMoviesController;
 use App\Http\Controllers\pageAllMoviesController;
+use App\Http\Controllers\ShowsPeopleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/popularmovies', [ApiMovieController::class, 'getPopularMovies']);
@@ -23,3 +24,4 @@ Route::get('/getmoviedetail/{id}', [DetailMoviesDataController::class, 'getDataD
 
 
 Route::get('/showsmovies', [pageAllMoviesController::class, 'showsAllMoviesData']);
+Route::get('/getpeople', [ShowsPeopleController::class, 'getAllPeoples']);

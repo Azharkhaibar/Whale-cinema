@@ -7,6 +7,7 @@ import MoviesPage from "../pages/moviesPage";
 import { MovieProvider } from "./moviesContext";
 import WebChannel from "../pages/webChannelPage";
 import AllMoviesPage from "../pages/allMoviesPage";
+import ShowPeoplePage from "../pages/showsPeoplePage";
 const App: React.FC = () => {
     return (
         <div>
@@ -19,6 +20,7 @@ const App: React.FC = () => {
                     <Route path="/webchannel" element={<WebChannel />} />
                     <Route path="/webnetwork" element={<WebChannel />} />
                     <Route path="/allmovies" element={<AllMoviesPage />} />
+                    <Route path="/people" element={<ShowPeoplePage />} />
                 </Routes>
             </MovieProvider>
         </div>
