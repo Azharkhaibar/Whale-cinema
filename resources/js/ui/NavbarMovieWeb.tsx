@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Search } from "lucide-react"; // Import ikon dari Lucide
+import { ChevronDown, Search } from "lucide-react"; // Import ikon dari Lucide
 
 const Navbar: React.FC = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
     return (
-        <nav className="absolute z-50 top-0 left-0 w-full bg-transparent backdrop-blur-sm text-white p-4 px-20">
+        <nav className="fixed top-0 left-0 w-full bg-blue-600/10 backdrop-blur-md text-white p-4 px-20 z-50">
             <div className="container mx-auto flex justify-between items-center">
                 {/* Logo & Navigation */}
                 <div className="flex items-center space-x-10">
@@ -21,10 +21,12 @@ const Navbar: React.FC = () => {
                         <li className="relative">
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="hover:text-yellow-400 text-lg focus:outline-none"
+                                className="hover:text-yellow-400 text-lg focus:outline-none flex items-center space-x-1"
                             >
-                                Browse ▼
+                                <span>Browse</span>
+                                <ChevronDown size={20} className="pt-1" />
                             </button>
+
                             {isDropdownOpen && (
                                 <ul className="absolute left-0 mt-2 w-40 bg-white text-gray-900 rounded-lg shadow-lg overflow-hidden">
                                     <li>
@@ -63,7 +65,7 @@ const Navbar: React.FC = () => {
                 {/* Search Bar */}
                 <div className="hidden md:flex items-center space-x-4">
                     <div className="flex items-center bg-gray-800 text-white px-4 py-2 rounded-full shadow-md w-96">
-                        <Search className="text-gray-400 mr-2" size={20} /> {/* Ganti dengan Lucide */}
+                        <Search className="text-gray-400 mr-2" size={20} />
                         <input
                             type="text"
                             placeholder="Search for movies or videos"

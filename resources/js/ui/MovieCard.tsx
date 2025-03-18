@@ -1,12 +1,12 @@
 import React from "react";
 
-interface MovieCardProps {
+interface AttributeMoviesCard {
     id: number;
     title: string;
     poster: string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ id, title, poster }) => {
+const MovieCard: React.FC<AttributeMoviesCard> = ({ id, title, poster }) => {
     return (
         <div className="bg-gray-800 text-white rounded-lg shadow-lg overflow-hidden w-64">
             <img src={poster} alt={title} className="w-full h-96 object-cover" />

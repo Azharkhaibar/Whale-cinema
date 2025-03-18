@@ -12,13 +12,13 @@ class NetworkMoviesController extends Controller
     public function getMoviesNetwork()
     {
         try {
-            Log::info('Fetching network data');
+            Log::info('Fetching network channel');
             $response = Http::get('https://api.tvmaze.com/shows');
 
             if (!$response->successful()) {
-                Log::error('Failed to fetch network data: ' . $response->status());
+                Log::error('gagal fetch data network channel: ' . $response->status());
                 return response()->json([
-                    "error" => "Failed to fetch data",
+                    "error" => "data tidak ditemukan cuy",
                     "status_code" => $response->status()
                 ], Response::HTTP_INTERNAL_SERVER_ERROR);
             }

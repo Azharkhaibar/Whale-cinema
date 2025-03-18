@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DetailMoviesDataController;
 use App\Http\Controllers\ApiMovieController;
+use App\Http\Controllers\DetailsMovieController;
 use App\Http\Controllers\ListMoviesController;
 use App\Http\Controllers\PageMoviesController;
 use App\Http\Controllers\NetworkMoviesController;
@@ -25,3 +26,6 @@ Route::get('/getmoviedetail/{id}', [DetailMoviesDataController::class, 'getDataD
 
 Route::get('/showsmovies', [pageAllMoviesController::class, 'showsAllMoviesData']);
 Route::get('/getpeople', [ShowsPeopleController::class, 'getAllPeoples']);
+
+Route::get('/getmoviedetail/{id}', [DetailsMovieController::class, 'showDetailMovie']);
+Route::get('/getrelatedmovie/{id}', [DetailsMovieController::class, 'RelatedMovies']);
