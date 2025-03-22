@@ -8,6 +8,7 @@ import DetailMovieAndCast from "./DetailsCast";
 import RelatedMovieViews from "./RelatedMovies";
 import PricingTable from "../PricingTable";
 import { CirclePlay } from "lucide-react";
+import { DetailsContainer } from "../DetailsContainerMovie";
 
 const MovieDetail: React.FC = () => {
     const { id } = useParams();
@@ -24,6 +25,8 @@ const MovieDetail: React.FC = () => {
         axios.get(`/api/getmoviedetail/${id}`)
             .then((res) => {
                 if (res.data?.data) {
+                    console.log(`show data movies : ${res.data}`);
+
                     setMovie(res.data.data);
                 } else {
                     setError("Movie not found.");
@@ -127,12 +130,19 @@ const MovieDetail: React.FC = () => {
             {/* Conditional Rendering for Detail Sections */}
             <div className="relative z-10 w-full mb-10 h-auto">
                 {DetailListOption === "Details" && (
-                    <DetailMovieAndCast movie={movie} cast={movie.cast} />
+                    <div>
+                        <DetailMovieAndCast movie={movie} cast={movie.cast} />
+                        <div className="w-full h-auto px-20 pt-20">
+                            {/* betulin movie nya */}
+                            <DetailsContainer movie={movie} />
+                        </div>
+                    </div>
                 )}
                 {DetailListOption === "Related" && (
                     <RelatedMovieViews movieId={movie.id} />
                 )}
             </div>
+
             <PricingTable />
             <Footer />
         </div>
